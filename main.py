@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
 import numpy as np
@@ -18,7 +18,10 @@ def status():
 
 @app.post("/predict")
 def predict(input_data: InputData):
-    features = vectorizer.transform([input_data.subject + " " + input_data.body])
-    prediction = model.predict(features)
-    result = bool(prediction[0])
-    return {"prediction": result}
+    try:
+        features = vectorizer.transform([input_data.subject + " " + input_data.body])
+        prediction = model.predict(features)
+        result = bool(prediction[0])
+        return {"prediction": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
