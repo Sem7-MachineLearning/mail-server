@@ -7,9 +7,19 @@ import matplotlib.pyplot as plt
 import string
 import random
 from fastapi.staticfiles import StaticFiles
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 vectorizer = joblib.load('vectorizer.pkl')
 model = joblib.load('model.pkl') 
+
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
 
 class InputData(BaseModel):
     subject: str
