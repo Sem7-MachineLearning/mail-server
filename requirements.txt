@@ -4,3 +4,5 @@ pydantic
 scikit-learn
 numpy
 uvicorn
+gunicorn
+matplotlib
